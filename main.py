@@ -165,13 +165,10 @@ def all_users(name: str = None, Limit: int = 10, offset: int = 0):
     ]
     return{
         "total": total,
-        "limit": limit,
+        "limit": Limit,
         "offset": offset,
         "users": users
     }
-
-
-
 
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
