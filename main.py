@@ -16,6 +16,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -170,6 +171,32 @@ def all_users(name: str = None, Limit: int = 10, offset: int = 0):
         "users": users
     }
 
+@app.post("/users")
+def create_user(user: User):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (user.email,))
+    exist = cursor.fetchone()
+    
+    if exist:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Email já cadastrado")
+    
+    pass_hash = hash_password(user.password)
+    cursor.execute("INSERT INTO users (name, age, email, password) VALUES (?, ?, ?, ?)",
+                (user.name, user.age, user.email, pass_hash))
+    conn.commit()
+    conn.close()
+    
+    return {
+        "msg": "usuario criado",
+        "user": {
+            "name": user.name,
+            "idade": user.idade,
+            "email": user.email
+        }
+    }
+
+
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     conn, cursor = get_db()
@@ -196,3 +223,22 @@ def profile(user: dict = Depends(verify_token)):
         "age": data[2],
         "email": data[3]
     }
+
+@app.put("/users/{id}")
+def update_user(user: User, id: int):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM users WHERE email = ? AND id != ?", (user.email, id))
+    exist = cursor.fetchone()
+    
+    if exist:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Email já cadastrado")
+    
+    pass_hash = hash_password(user.password)
+    
+    cursor.execute("UPDATE users SET name = ?, age = ?, email = ?, password = ? WHERE id = ?",
+            (user.name, user.age, user.email, pass_hash, id))
+    conn.commit()
+    conn.close()
+
+    return {"msg": "usuario atualizado"}
