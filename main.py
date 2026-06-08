@@ -75,6 +75,10 @@ class Comment(BaseModel):
     content: str
 
 #============== Tables
+def get_db():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    return conn, cursor
 
 def create_table():
     conn = sqlite3.connect('users.db')
@@ -124,3 +128,74 @@ def create_comment_table():
     conn.commit()
     conn.close()
 create_comment_table()
+
+# ============= Routes
+@app.get("/users")
+def all_users(name: str = None, Limit: int = 10, offset: int = 0):
+    conn, cursor = get_db()
+
+    query = "SELECT * FROM users"
+    params = ()
+
+    if name:
+        query += " WHERE name LIKE?"
+        params = (f"%{name}%")
+    if name:
+        cursor.execute("SELECT COUNT(*) FROM users WHERE name LIKE ?", (f"%{name}%"))
+    else:
+        cursor.execute("SELECT COUNT(*) FROM users")
+
+    total = cursor.featchone()[0]
+
+    query += " LIMIT ? OFFSET ?"
+    params += (Limit, offset)
+
+    cursor.execute(query, params)
+    data = cursor.fetchall()
+    conn.close
+
+    users = [
+        {
+            "id": u[0],
+            "name": u[1],
+            "age": u[2],
+            "email": u[3]
+        }
+        for u in data
+    ]
+    return{
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "users": users
+    }
+
+
+
+
+@app.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    conn, cursor = get_db()
+    cursor.execute("SELECT id, email, password FROM users WHERE email = ?", (form_data.username,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user or not verify_password(form_data.password, user[2]):
+        raise HTTPException(status_code=401, detail="Email ou senha inválidos")
+    
+    token_data = {"sub": str(user[0]), "email": user[1]}
+    token = create_token(token_data)
+    return {"access_token": token, "token_type": "bearer"}
+
+@app.get("/profile")
+def profile(user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user["id"],))
+    data = cursor.featchone()
+    conn.close()
+
+    return{
+        "name": data[1],
+        "age": data[2],
+        "email": data[3]
+    }
