@@ -139,21 +139,21 @@ def all_users(name: str = None, Limit: int = 10, offset: int = 0):
     params = ()
 
     if name:
-        query += " WHERE name LIKE?"
-        params = (f"%{name}%")
+        query += " WHERE name LIKE ?"
+        params = (f"%{name}%",)
     if name:
         cursor.execute("SELECT COUNT(*) FROM users WHERE name LIKE ?", (f"%{name}%"))
     else:
         cursor.execute("SELECT COUNT(*) FROM users")
 
-    total = cursor.featchone()[0]
+    total = cursor.fetchone()[0]
 
     query += " LIMIT ? OFFSET ?"
     params += (Limit, offset)
 
     cursor.execute(query, params)
     data = cursor.fetchall()
-    conn.close
+    conn.close()
 
     users = [
         {
@@ -191,11 +191,10 @@ def create_user(user: User):
         "msg": "usuario criado",
         "user": {
             "name": user.name,
-            "idade": user.idade,
+            "idade": user.age,
             "email": user.email
         }
     }
-
 
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -214,8 +213,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 @app.get("/profile")
 def profile(user: dict = Depends(verify_token)):
     conn, cursor = get_db()
-    cursor.execute("SELECT * FROM users WHERE id = ?", (user["id"],))
-    data = cursor.featchone()
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user["user_id"],))
+    data = cursor.fetchone()
     conn.close()
 
     return{
@@ -242,3 +241,59 @@ def update_user(user: User, id: int):
     conn.close()
 
     return {"msg": "usuario atualizado"}
+
+@app.post("/posts")
+def create_post(post: Post, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)"
+                ,(post.title, post.content, user["user_id"])
+                )
+    conn.commit()
+    conn.close()
+    return {"msg": "post criado"}
+
+@app.get("/posts")
+def get_posts(user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM posts")
+    data = cursor.fetchall()
+    conn.close()
+    
+    posts = [
+        {
+            "id": p[0],
+            "title": p[1],
+            "content": p[2],
+            "author_id": p[3]
+        }
+        for p in data
+    ]
+    return {
+        "posts": posts
+    }
+
+@app.get("/posts/{id}")
+def get_post(id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM posts WHERE id = ?", (id,))
+    data = cursor.fetchone()
+    conn.close()
+
+    if not data:
+        raise HTTPException(status_code=404, detail="Post não encontrado")
+    
+    return {
+        "id": data[0],
+        "title": data[1],
+        "content": data[2],
+        "author_id": data[3]
+    }
+
+@app.delete("/posts/{id}")
+def del_post(id: int, user: dict = Depends(verify_token)):
+    conn,cursor = get_db()
+    cursor.execute("DELETE FROM posts WHERE id = ? AND author_id = ?", (id, user["user_id"]))
+    conn.commit()
+    conn.close()
+
+    return {"msg": "post deletado"}
