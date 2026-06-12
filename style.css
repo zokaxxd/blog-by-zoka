@@ -7,19 +7,27 @@ body
     height: 100vh;
     overflow: hidden;
 }
+.wrapper
+{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
 .left
 {
-    width: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 50vh;
+    height: 96vh;
     background: #220101;
     border-right: 1px solid #3a0018;
     padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
     gap: 32px;
 }
 .tit
 {
-    font-size: 3.5vh;
+    text-align: center;
+    font-size: 5vh;
     font-weight: 700;
     color: #ff2060;
     letter-spacing: 2px;
@@ -28,14 +36,19 @@ body
 {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+
 }
 .na
 {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px;
+    padding: 2vh;
+    width: 37vh;
+    margin: 0.67vh;    
     border-radius: 10px;
     cursor: pointer;
     text-decoration: none;
@@ -100,15 +113,16 @@ body
 }
 
 /* =========================Feed========================== */
-.center
-{
+.center {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
     gap: 16px;
     max-width: 560px;
+
+
 }
 .feed::-webkit-scrollbar{ width: 4px;}
 .feed::-webkit-scrollbar-track{ background: #0d0005;}
@@ -116,13 +130,14 @@ body
 
 .crt
 {
+    display: flex;
+    flex-direction: column;
     background: #120008;
     border: 1px solid #3a0018;
     border-radius: 8px;
     padding: 16px;
-    display: flex;
-    flex-direction: column;
     gap: 16px;
+    margin: 0;
 }
 .crt-top
 {
@@ -307,3 +322,16 @@ body
 .add-comment input::placeholder { color: #5c0020; }
 .add-comment input:focus { outline: none; border-color: #ff2060; }
 
+
+.right {
+    display: flex;
+    flex-direction: column;
+    width: 40vh;
+    margin-left: auto;
+    background: #220101;
+    border-left: 1px solid #3a0018;
+    padding: 20px 16px;
+    gap: 16px;
+    text-align: center;
+    font-size: 3vh;
+}
