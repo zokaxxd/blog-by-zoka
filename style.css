@@ -1,5 +1,6 @@
-body
-{
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
     background-color: #0d0005;
     font-family: Arial, Helvetica, sans-serif;
     color: #ff203e;
@@ -7,250 +8,241 @@ body
     height: 100vh;
     overflow: hidden;
 }
-.wrapper
-{
+
+.wrapper {
     display: flex;
     width: 100%;
     height: 100%;
 }
-.left
-{
-    display: flex;
-    flex-direction: column;
-    width: 50vh;
-    height: 96vh;
+
+/* ========== SIDEBAR ESQUERDA ========== */
+.left {
+    width: 320px;
+    min-width: 320px;
+    height: 100%;
     background: #220101;
     border-right: 1px solid #3a0018;
     padding: 20px 16px;
-    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
-.tit
-{
-    text-align: center;
-    font-size: 5vh;
+
+.tit {
+    font-size: 22px;
     font-weight: 700;
     color: #ff2060;
     letter-spacing: 2px;
+    text-align: center;
 }
-.nave
-{
+
+.nave {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
-
+    gap: 4px;
 }
-.na
-{
+
+.na {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 2vh;
-    width: 37vh;
-    margin: 0.67vh;    
+    padding: 10px;
+    width: 100%;
     border-radius: 10px;
     cursor: pointer;
-    text-decoration: none;
     color: #710030;
     font-size: 14px;
     transition: 0.3s;
+    border: none;
+    background: transparent;
+    text-align: left;
 }
-.na:hover
-{
+
+.na:hover {
     background-color: #710013;
     color: #ff2020;
 }
-.user
-{
+
+.na i {
+    font-size: 18px;
+}
+
+.user {
     margin-top: auto;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 10px;
     border-radius: 8px;
     border: 2px solid #8f0202;
     cursor: pointer;
 }
-.avatar
-{
-    width: 40px;
-    height: 40px;
+
+.avatar {
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background-color: #ff2032;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #0d0005;
     flex-shrink: 0;
 }
-.avatar.small
-{
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
+
+.avatar.small {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
 }
-.avatar.medium
-{
+
+.avatar.medium {
     width: 32px;
     height: 32px;
     background: #7a0030;
     font-size: 11px;
     color: #ff2020;
 }
-.infos p:first-child
-{
-    font-size: 12px;
+
+.infos p:first-child {
+    font-size: 13px;
     font-weight: 500;
     color: #ff2020;
 }
-.infos p:last-child
-{
-    font-size: 10px;
+
+.infos p:last-child {
+    font-size: 11px;
     color: #920b0b;
 }
 
-/* =========================Feed========================== */
+/* ========== FEED CENTRAL ========== */
 .center {
-    display: flex;
-    flex-direction: column;
     flex: 1;
     overflow-y: auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
-    max-width: 560px;
-
-
+    max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
 }
-.feed::-webkit-scrollbar{ width: 4px;}
-.feed::-webkit-scrollbar-track{ background: #0d0005;}
-.feed::-webkit-scrollbar-thumb{ background: #690b0b; border-radius: 4px;}
 
-.crt
-{
+.center::-webkit-scrollbar { width: 4px; }
+.center::-webkit-scrollbar-track { background: #0d0005; }
+.center::-webkit-scrollbar-thumb { background: #690b0b; border-radius: 4px; }
+
+/* criar post */
+.crt {
     display: flex;
     flex-direction: column;
     background: #120008;
     border: 1px solid #3a0018;
     border-radius: 8px;
     padding: 16px;
-    gap: 16px;
-    margin: 0;
+    gap: 12px;
 }
-.crt-top
-{
+
+.top {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.crt textarea
-{
-    margin-top: 6px;
-    text-align: center;
+
+.crt textarea {
     flex: 1;
-    background: #86162e;
-    border: 1px solid #fd1818;
+    background: #1f0010;
+    border: 1px solid #3a0018;
     border-radius: 8px;
-    padding: 6px;
+    padding: 8px;
     color: #ff2060;
-    font-size: 16px;
+    font-size: 14px;
     resize: none;
     height: 50px;
-    font-family: arial, sans-serif;
+    font-family: Arial, sans-serif;
 }
-.crt textarea:placeholder { color: #fd1818; }
 
-.crt textarea:focus
-{
+.crt textarea::placeholder { color: #5c0020; }
+
+.crt textarea:focus {
     outline: none;
     border-color: #ff2060;
 }
-.crt bottom
-{
-    display: flex;
-    justify-content: flex-end;
+
+.create {
+    align-self: flex-end;
+    padding: 8px 20px;
+    background: #ff2060;
+    color: #0d0005;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-/* ========== Posts ========== */
-.post-card 
-{
+.create:hover { background: #cc0040; }
+
+/* ========== POST CARDS ========== */
+.post-card {
     background: #120008;
     border: 1px solid #3a0018;
     border-radius: 12px;
     overflow: hidden;
 }
 
-.post-header
-{
+.post-header {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 14px;
 }
 
-.post-author 
-{
+.post-author {
     display: flex;
     flex-direction: column;
 }
 
-.post-author span:first-child 
-{
+.post-author span:first-child {
     font-size: 13px;
     font-weight: 500;
     color: #ff6090;
 }
 
-.post-author span:last-child 
-{
+.post-author span:last-child {
     font-size: 11px;
     color: #5c0020;
 }
 
-.post-image 
-{
-    background: #1f0010;
-    height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.post-image i { color: #3a0018; font-size: 56px; }
-
-.post-body 
-{
+.post-body {
     padding: 14px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.post-title 
-{
+.post-title {
     font-size: 15px;
     font-weight: 500;
     color: #ff6090;
 }
 
-.post-content 
-{
+.post-content {
     font-size: 13px;
     color: #7a0030;
     line-height: 1.5;
 }
 
-.post-actions 
-{
+.post-actions {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.action-btn 
-{
+.action-btn {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -265,51 +257,41 @@ body
 
 .action-btn:hover { color: #ff2060; }
 .action-btn.liked { color: #ff2060; }
-
 .action-btn i { font-size: 18px; }
 
-.post-comments 
-{
+.post-comments {
     border-top: 1px solid #1f0010;
     padding-top: 10px;
 }
 
-.comments-count 
-{
+.comments-count {
     font-size: 12px;
     color: #5c0020;
     margin-bottom: 8px;
 }
 
-.comment-item 
-{
+.comment-item {
     display: flex;
     align-items: flex-start;
     gap: 8px;
     margin-bottom: 8px;
 }
 
-.comment-text
-{
+.comment-text {
     font-size: 13px;
     color: #ff6090;
 }
 
-.comment-text span
-{
-    color: #7a0030;
-}
+.comment-text span { color: #7a0030; }
 
-.add-comment 
-{
+.add-comment {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 8px;
 }
 
-.add-comment input 
-{
+.add-comment input {
     flex: 1;
     background: #1f0010;
     border: 1px solid #3a0018;
@@ -322,16 +304,55 @@ body
 .add-comment input::placeholder { color: #5c0020; }
 .add-comment input:focus { outline: none; border-color: #ff2060; }
 
-
+/* ========== SIDEBAR DIREITA ========== */
 .right {
-    display: flex;
-    flex-direction: column;
-    width: 40vh;
-    margin-left: auto;
+    width: 320px;
+    min-width: 320px;
     background: #220101;
     border-left: 1px solid #3a0018;
     padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
-    text-align: center;
-    font-size: 3vh;
+    overflow-y: auto;
+}
+
+.sug {
+    font-size: 12px;
+    color: #5c0020;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.suggestion-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suggestion-info span {
+    font-size: 13px;
+    color: #ff6090;
+}
+
+.btn-follow {
+    background: transparent;
+    border: 1px solid #ff2060;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ff2060;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-follow:hover {
+    background: #ff2060;
+    color: #0d0005;
 }
