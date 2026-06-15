@@ -1,0 +1,79 @@
+body{
+    background-color: #0d0005;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ff203e;
+    display: flex;
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.inf{
+    font-size: 3.5vh;
+    font-weight: 700;
+    margin-bottom: 5vh;
+}
+.container{
+    height: 67vh;
+    width: 47vh;
+    background-color: #220101;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 8vh;
+    justify-content: center;
+    gap: 20px;
+    margin: auto;
+}
+.container:hover{
+    border: 1px solid #6e012e;
+    transition: 0.7s;
+}
+.wrapper{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+.nam{
+    font-size: 2.5vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    font-weight: 800;
+}
+.ida{
+    font-size: 2.5vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    font-weight: 800;
+}
+.ema{
+    font-size: 2.5vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    font-weight: 800;
+}
+.id{
+    font-size: 2.5vh;    
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    font-weight: 800;
+}
+.sai{
+    margin-left: 7vh;
+    margin-top: 3vh;
+    padding: 1vh;
+    width: 26vh;
+    background-color: #1f0010;
+    border: 1px solid #3a0018;
+    border-radius: 1vh;
+    color: #ff2060;
+    font-size: 1.6vh;
+}
+.sai:hover{
+    cursor: pointer;
+    background-color: #ff2060;
+    color: #0d0005;
+    transition: 0.7s;
+}
