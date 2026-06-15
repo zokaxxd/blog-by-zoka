@@ -113,6 +113,20 @@ def create_post_table():
     conn.close()
 create_post_table()
 
+def like_post():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS likes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        post_id INTEGER,
+        author_id INTEGER
+    )
+        ''')
+    conn.commit()
+    conn.close()
+like_post()
+
 def create_comment_table():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
@@ -297,3 +311,70 @@ def del_post(id: int, user: dict = Depends(verify_token)):
     conn.close()
 
     return {"msg": "post deletado"}
+
+@app.post("/posts/{id}/comments")
+def comment(Comment: Comment, id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("INSERT INTO comments (content, post_id, author_id) VALUES (?, ?, ?)"
+                ,(Comment.content, id, user["user_id"])
+                )
+    conn.commit()
+    conn.close()
+    return {"msg": "comentário enviado"}
+
+@app.get("/posts/{id}/comments")
+def get_comments(id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM comments WHERE post_id = ?", (id,))
+    data = cursor.fetchall()
+    conn.close()
+    
+    comments = [
+        {
+            "id": c[0],
+            "content": c[1],
+            "author_id": c[3]
+        }
+        for c in data
+    ]
+    return {
+        "comments": comments
+    }
+
+@app.delete("/comments/{id}")
+def del_comment(id: int, user: dict = Depends(verify_token)):
+    conn,cursor = get_db()
+    
+    cursor.execute("DELETE FROM comments WHERE id = ? AND author_id = ?", (id, user["user_id"]))
+    conn.commit()
+    conn.close()
+
+    return {"msg": "comentário deletado"}
+
+@app.post("/posts/{id}/likes")
+def like_a_post(id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+
+    cursor.execute("INSERT INTO likes (post_id, author_id) VALUES (?, ?)", (id, user["user_id"]))
+    curtiu = cursor.fetchone()
+
+    if curtiu:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Post já curtido")
+    
+    cursor.execute("INSERT INTO likes (post_id, author_id) VALUES (?, ?)", (id, user["user_id"]))
+    conn.commit()
+    conn.close()
+    return {"msg": "post curtido"}
+
+@app.delete("/posts/{id}/likes")
+def unlike_a_post(id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    
+    cursor.execute("DELETE FROM likes WHERE post_id = ? AND author_id = ?", (id, user["user_id"]))
+
+    conn.commit()
+    conn.close()
+    return {"msg": "post não mais curtido"}
+
+
