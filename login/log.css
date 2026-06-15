@@ -1,0 +1,108 @@
+body{
+    background-color: #0d0005;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ff203e;
+    display: flex;
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.log{
+    font-size: 5vh;
+    font-weight: 700;
+    color: #ff2060;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.wrapper{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.cont{
+    height: 67vh;
+    width: 50vh;
+    background-color: #220101;
+    
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: auto;
+    margin-bottom:10vh;
+}
+.cont:hover{
+    border: 1px solid #6e012e;
+    transition: 0.7s;
+}
+.ema{
+    font-size: 2.5vh;
+    margin-top: 0.6vh;
+    margin-bottom: 0.5vh;
+}
+.email{
+    background-color: #1f0010;
+    border: 1px solid #3a0018;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+    margin-bottom: 2.6vh;
+    margin-top: 0;
+}
+.email::placeholder{
+    color: #700128;
+}
+.email:hover{
+    cursor: pointer;
+    background-color: #ff2060;
+    color: #0d0005;
+    transition: 0.7s;
+}
+.pas{
+    font-size: 2.5vh;
+    margin-top: 2.6vh;
+    margin-bottom: 0.5vh;
+}
+.password{
+    background-color: #1f0010;
+    border: 1px solid #3a0018;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+    margin-bottom: 7vh;
+}
+.password::placeholder{
+    color: #700128;
+}
+.password:hover{
+    cursor: pointer;
+    background-color: #ff2060;
+    color: #0d0005;
+    transition: 0.7s;
+}
+.log-{
+    margin-bottom: 10vh;
+    margin-top: 0;
+    padding: 1vh;
+    width: 26vh;
+    background-color: #1f0010;
+    border: 1px solid #3a0018;
+    border-radius: 1vh;
+    color: #ff2060;
+    font-size: 1.6vh;
+}
+.log-:hover{
+    cursor: pointer;
+    background-color: #ff2060;
+    color: #0d0005;
+    transition: 0.7s;
+}
+.idn{
+    font-size: 2vh;
+}
+
