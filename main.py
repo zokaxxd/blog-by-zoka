@@ -270,7 +270,7 @@ def create_post(post: Post, user: dict = Depends(verify_token)):
 @app.get("/posts")
 def get_posts(user: dict = Depends(verify_token)):
     conn, cursor = get_db()
-    cursor.execute("SELECT * FROM posts")
+    cursor.execute("SELECT posts.*, users.name FROM posts JOIN users ON posts.author_id = users.id")
     data = cursor.fetchall()
     conn.close()
     
@@ -279,7 +279,8 @@ def get_posts(user: dict = Depends(verify_token)):
             "id": p[0],
             "title": p[1],
             "content": p[2],
-            "author_id": p[3]
+            "author_id": p[3],
+            "author_name": p[4]
         }
         for p in data
     ]
@@ -326,7 +327,7 @@ def comment(Comment: Comment, id: int, user: dict = Depends(verify_token)):
 @app.get("/posts/{id}/comments")
 def get_comments(id: int, user: dict = Depends(verify_token)):
     conn, cursor = get_db()
-    cursor.execute("SELECT * FROM comments WHERE post_id = ?", (id,))
+    cursor.execute("SELECT comments.*, users.name FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = ?", (id,))
     data = cursor.fetchall()
     conn.close()
     
@@ -334,7 +335,8 @@ def get_comments(id: int, user: dict = Depends(verify_token)):
         {
             "id": c[0],
             "content": c[1],
-            "author_id": c[3]
+            "author_id": c[3],
+            "author_name": c[4]
         }
         for c in data
     ]

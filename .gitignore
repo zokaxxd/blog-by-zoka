@@ -1,5 +1,5 @@
 .env
-.vscode
-_pycache_1
-assets
 users.db
+.vscode
+assets
+__pycache__
