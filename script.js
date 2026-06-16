@@ -33,7 +33,62 @@ function getPosts(){
         })
     })
 }
-
 getPosts()
 
+function getSuggestions(){
+    fetch("http://127.0.0.1:8000/users", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+    console.log(data) 
+    const list = document.getElementById("suggestions-list");
+        list.innerHTML = "";    
+        data.users.forEach(suggestion => {
+            const suggestionElement = document.createElement("div");
+            suggestionElement.classList.add("suggestion");
+            suggestionElement.innerHTML = `
+                <div class="suggestion-info">
+                    <div class="avatar medium">${suggestion.name[0].toUpperCase()}</div>
+                    <span>${suggestion.name}</span>
+                </div>
+                `;
+                list.appendChild(suggestionElement);
+        })
+    })
+}
+getSuggestions()
+
+function postPost(){
+    const postInput = document.getElementById("post-input").value;
+    const userId = localStorage.getItem("user-id");
+
+    fetch("http://127.0.0.1:8000/posts", {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: postInput,
+            content: postInput
+        })
+    })
+.then(res => res.json())
+.then(data => {
+    if (data.msg === "post criado"){
+        alert("Post created!");
+        document.getElementById("post-input").value = "";
+        getPosts();
+    } else {
+        alert("Error: " + data.detail);
+    }
+    
+})
+}
+document.getElementById("postar").addEventListener("click", function(){
+    postPost()
+})
 

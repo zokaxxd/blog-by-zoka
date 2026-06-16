@@ -232,6 +232,7 @@ def profile(user: dict = Depends(verify_token)):
     conn.close()
 
     return{
+        "id": data[0],
         "name": data[1],
         "age": data[2],
         "email": data[3]
@@ -355,13 +356,13 @@ def del_comment(id: int, user: dict = Depends(verify_token)):
 def like_a_post(id: int, user: dict = Depends(verify_token)):
     conn, cursor = get_db()
 
-    cursor.execute("INSERT INTO likes (post_id, author_id) VALUES (?, ?)", (id, user["user_id"]))
+    cursor.execute("SELECT * FROM likes WHERE post_id = ? AND author_id = ?", (id, user["user_id"]))
     curtiu = cursor.fetchone()
 
     if curtiu:
         conn.close()
         raise HTTPException(status_code=400, detail="Post já curtido")
-    
+
     cursor.execute("INSERT INTO likes (post_id, author_id) VALUES (?, ?)", (id, user["user_id"]))
     conn.commit()
     conn.close()

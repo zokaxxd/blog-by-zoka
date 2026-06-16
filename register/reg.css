@@ -47,6 +47,7 @@ body{
 .ema{
     background-color: #1f0010;
     border: 1px solid #3a0018;
+    color: #ff2060;
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
@@ -69,6 +70,7 @@ body{
 .pass{
     background-color: #1f0010;
     border: 1px solid #3a0018;
+    color: #ff2060;
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
@@ -90,6 +92,7 @@ body{
 .age-{
     background-color: #1f0010;
     border: 1px solid #3a0018;
+    color: #ff2060;
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
@@ -111,6 +114,7 @@ body{
 .nam-{
     background-color: #1f0010;
     border: 1px solid #3a0018;
+    color: #ff2060;
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
