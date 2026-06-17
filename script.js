@@ -3,7 +3,14 @@ if (!token){
     window.location.href = "/login/log.html";
 }
 
+const userName = localStorage.getItem("user-name");
+document.getElementById("user-name").textContent = userName;
+document.getElementById("user-avatar").textContent = userName[0].toUpperCase();
+
+
 function getPosts(){
+    const userId = localStorage.getItem("user-id");
+    
     fetch("http://127.0.0.1:8000/posts", {
         headers: {
             "Authorization": "Bearer " + token
@@ -16,27 +23,28 @@ function getPosts(){
 
         data.posts.forEach(post => {
             const postElement = document.createElement("div");
-            postElement.classList.add("post");
+            postElement.classList.add("post-card");
             postElement.innerHTML = `
-                <div class="post-header">
-                    <div class="avatar" id="post-avatar">${post.author_name[0].toUpperCase()}</div>
-                    <div class="infos">
-                        <div id="comments-${post.id}"></div>
-                        <p class="title">${post.title}</p>
-                        <p class="author">${post.author_name}</p>
-                    </div>
+            <div class="post-header">
+                <div class="avatar">${post.author_name[0].toUpperCase()}</div>
+                <div class="post-author">
+                    <span>${post.author_name}</span>
                 </div>
-                <div class="post-content">
-                    ${post.content}
-                </div>
+            </div>
+            <div class="post-body">
+                <p class="post-title">${post.title}</p>
+                <p class="post-content">${post.content}</p>
                 <div class="post-actions">
-                <button onclick="likePost(${post.id})">❤</button>
-                <button onclick="deletePost(${post.id})">🗑</button>
-                <button onclick="unlikePost(${post.id})">💜</button>
-                <button onclick="commentPost(${post.id})">💬</button>
-                <button onclick="getComments(${post.id})">🍆</button>
+                    <button class="action-btn" onclick="likePost(${post.id})">❤</button>
+                    <button class="action-btn" onclick="unlikePost(${post.id})">💜</button>
+                    <button class="action-btn" onclick="commentPost(${post.id})">💬</button>
+                    <button class="action-btn" onclick="getComments(${post.id})">👁</button>
+                    ${post.author_id == userId ? `<button class="action-btn" onclick="deletePost(${post.id})">🗑</button>` : ""}
                 </div>
-            `;
+                <div id="comments-${post.id}"></div>
+            </div>
+            
+        `;
             list.appendChild(postElement);
         })
     })
@@ -72,6 +80,7 @@ getSuggestions()
 function postPost(){
     const postInput = document.getElementById("post-input").value;
     const userId = localStorage.getItem("user-id");
+    
 
     fetch("http://127.0.0.1:8000/posts", {
         method: "POST",
@@ -208,6 +217,8 @@ function commentPost(id){
 }
 
 function getComments(id){
+    const userId = localStorage.getItem("user-id");
+
     fetch("http://127.0.0.1:8000/posts/" + id + "/comments", {
         headers: {
             "Authorization": "Bearer " + token
@@ -216,25 +227,23 @@ function getComments(id){
     .then(res => res.json())
     .then(data => {
         const list = document.getElementById("comments-" + id);
-        list.innerHTML = "";
+        if (list.innerHTML !== ""){
+            list.innerHTML = "";
+            return;
+        }
 
         data.comments.forEach(comment => {
             const commentElement = document.createElement("div");
             commentElement.classList.add("comment");
             commentElement.innerHTML = `
-                <div class="comment-header">
-                    <div class="avatar" id="comment-avatar">${comment.author_name[0].toUpperCase()}</div>
-                    <div class="infos">
-                        <p class="author">${comment.author_name}</p>
-                    </div>
-                </div>
-                <div class="comment-content">
-                    ${comment.content}
-                </div>
-                <div class="comment-actions">
-                <button onclick="deleteComment(${comment.id}, ${id})">🗑</button>
-                </div>
-            `;
+            <div class="comment-item">
+                <div class="avatar small">${comment.author_name[0].toUpperCase()}</div>
+                <div class="comment-text">
+                <span>${comment.author_name}</span> ${comment.content}
+                ${comment.author_id == userId ? `<button class="action-btn" onclick="deleteComment(${comment.id}, ${id})">🗑</button>` : ""}
+            </div>
+        </div>
+`;
             list.appendChild(commentElement);
         })
     })

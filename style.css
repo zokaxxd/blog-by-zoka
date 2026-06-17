@@ -322,12 +322,14 @@ body {
     color: #5c0020;
     text-transform: uppercase;
     letter-spacing: 1px;
+    
 }
 
 .suggestion-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 }
 
 .suggestion-info {
@@ -339,6 +341,7 @@ body {
 .suggestion-info span {
     font-size: 13px;
     color: #ff6090;
+    margin: auto;
 }
 
 .btn-follow {
