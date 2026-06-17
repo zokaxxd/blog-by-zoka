@@ -6,6 +6,7 @@ if (!token){
 const userName = localStorage.getItem("user-name");
 document.getElementById("user-name").textContent = userName;
 document.getElementById("user-avatar").textContent = userName[0].toUpperCase();
+document.getElementById("create-avatar").textContent = userName[0].toUpperCase();
 
 
 function getPosts(){
@@ -36,7 +37,7 @@ function getPosts(){
                 <p class="post-content">${post.content}</p>
                 <div class="post-actions">
                     <button class="action-btn" onclick="likePost(${post.id})">❤</button>
-                    <button class="action-btn" onclick="unlikePost(${post.id})">💜</button>
+                    <button class="action-btn" onclick="unlikePost(${post.id})">🤍</button>
                     <button class="action-btn" onclick="commentPost(${post.id})">💬</button>
                     <button class="action-btn" onclick="getComments(${post.id})">👁</button>
                     ${post.author_id == userId ? `<button class="action-btn" onclick="deletePost(${post.id})">🗑</button>` : ""}
